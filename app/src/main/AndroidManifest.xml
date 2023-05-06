@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AllUsersActivity" android:label="All users"/>
+        <activity android:name=".AddUserActivity" android:label="New user"/>
     </application>
 
 </manifest>
