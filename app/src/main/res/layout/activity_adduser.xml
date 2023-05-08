@@ -4,16 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/firstNameText"
+    <EditText
+        android:id="@+id/firstNameInput"
+        android:text=""
+        android:hint="enter first name"
+        android:padding="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="test"/>
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/lastNameInput"
+        android:text=""
+        android:hint="enter last name"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/addButton"
+        android:text="Add user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/lastNameText"
+        android:id="@+id/helpText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="test"/>
+        android:text="test"
+        android:textAlignment="center"/>
 
 </LinearLayout>

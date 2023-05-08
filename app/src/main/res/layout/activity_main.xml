@@ -7,33 +7,15 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/firstNameInput"
-        android:text=""
-        android:hint="enter first name"
-        android:padding="20dp"
+    <Button
+        android:id="@+id/addUserButton"
+        android:text="Create a new user"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        />
 
-    <EditText
-        android:id="@+id/lastNameInput"
-        android:text=""
-        android:hint="enter last name"
-        android:padding="20dp"
+    <ListView
+        android:id="@+id/userList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-    <Button
-        android:text="Add user"
-        android:id="@+id/addUserButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-
-    <Button
-        android:text="Get all users"
-        android:id="@+id/allUsersButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
 </LinearLayout>
