@@ -26,6 +26,10 @@ data class User (val firstName: String? = null, val lastName: String? = null) {
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class UserList(var users: MutableList<User>? = null)
+
+/**
+ * This is the main activity class that lists all the users.
+ */
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var addUserButton : Button
     private lateinit var userList : ListView
@@ -34,6 +38,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var firstName : String
     private lateinit var lastName : String
 
+    /**
+     * Override function of onCreate that has it's own view with
+     * add user button and a list of the users. It also takes an intent
+     * from the AddUserActivity that has the name of the added user.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -56,6 +65,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         userList.adapter = adapter
     }
 
+    /**
+     * Override function of onClick that opens a new activity.
+     */
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.addUserButton -> {
@@ -65,6 +77,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    /**
+     * Override function of onResume that has an url address of the all
+     * users list. This function runs the list of the users in the UI view
+     * and calls the http connection.
+     */
     override fun onResume() {
         super.onResume()
         val url = "https://dummyjson.com/users"
@@ -86,6 +103,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    /**
+     * This function gets the connection to the database using OkHttp.
+     * It parses the json using Jackson.
+     * @param url address of the http connection
+     * @return responseBody result of the connection
+     * @throws IOException prints the response if the connection fails
+     */
     private fun getUrl(url: String) : String? {
         val client = OkHttpClient()
 

@@ -14,7 +14,15 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 import kotlin.concurrent.thread
 
+/**
+ * This class adds a new user in it's own view
+ */
 class AddUserActivity : AppCompatActivity(), View.OnClickListener {
+    /**
+     * This is an override function of onCreate.
+     * It sets the content view with input fields
+     * for new user's name and a button.
+     */
     private lateinit var firstNameEditText : EditText
     private lateinit var lastNameEditText : EditText
     private lateinit var helpText : TextView
@@ -37,6 +45,12 @@ class AddUserActivity : AppCompatActivity(), View.OnClickListener {
         addButton.setOnClickListener(this)
     }
 
+    /**
+     * This is a function that adds the new user to the database
+     * @param url the database url address
+     * @param json new user's name as json
+     * @return responseBody the result of the connection
+     */
     private fun addUser(url : String, json : String) : String? {
         val client = OkHttpClient()
         val requestBody = json.toRequestBody("application/json".toMediaTypeOrNull())
@@ -52,6 +66,13 @@ class AddUserActivity : AppCompatActivity(), View.OnClickListener {
             return responseBody
         }
     }
+
+    /**
+     * Override function of onClick that turns the name inputs to
+     * string and adds them to the new user. It turns the new users data to json
+     * and passes it with the url to the database. It also checks if the names are
+     * too short or missing.
+     */
     override fun onClick(p0: View?) {
         firstNameInput = firstNameEditText.text.toString()
         lastNameInput = lastNameEditText.text.toString()
@@ -67,6 +88,7 @@ class AddUserActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         val newUserIntent = Intent(this, MainActivity::class.java)
+
         if (firstNameInput != "" && lastNameInput != "") {
             newUserIntent.putExtra("firstName", firstNameInput)
             newUserIntent.putExtra("lastName", lastNameInput)
