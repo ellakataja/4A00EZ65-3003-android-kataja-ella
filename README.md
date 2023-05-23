@@ -7,6 +7,8 @@ the proto app, with two mandatory features.
 OkHttp
 ### JSON Parser
 Jackson
+### UI
+XML
 # Features
 - Get all users
 - Add user
