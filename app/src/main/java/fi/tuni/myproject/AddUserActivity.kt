@@ -18,11 +18,7 @@ import kotlin.concurrent.thread
  * This class adds a new user in it's own view
  */
 class AddUserActivity : AppCompatActivity(), View.OnClickListener {
-    /**
-     * This is an override function of onCreate.
-     * It sets the content view with input fields
-     * for new user's name and a button.
-     */
+
     private lateinit var firstNameEditText : EditText
     private lateinit var lastNameEditText : EditText
     private lateinit var helpText : TextView
@@ -30,6 +26,11 @@ class AddUserActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var firstNameInput : String
     private lateinit var lastNameInput : String
 
+    /**
+     * This is an override function of onCreate.
+     * It sets the content view with input fields
+     * for new user's name and a button.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_adduser)
@@ -38,33 +39,9 @@ class AddUserActivity : AppCompatActivity(), View.OnClickListener {
         lastNameEditText = findViewById(R.id.lastNameInput)
         helpText = findViewById(R.id.helpText)
         addButton = findViewById(R.id.addButton)
-        //firstNameInput = firstNameEditText.text.toString()
-        //lastNameInput = lastNameEditText.text.toString()
 
         helpText.text = ""
         addButton.setOnClickListener(this)
-    }
-
-    /**
-     * This is a function that adds the new user to the database
-     * @param url the database url address
-     * @param json new user's name as json
-     * @return responseBody the result of the connection
-     */
-    private fun addUser(url : String, json : String) : String? {
-        val client = OkHttpClient()
-        val requestBody = json.toRequestBody("application/json".toMediaTypeOrNull())
-        val request = Request.Builder()
-            .url(url)
-            .post(requestBody)
-            .build()
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("Unexpected code $response")
-
-            val responseBody = response.body!!.string()
-            println(responseBody)
-            return responseBody
-        }
     }
 
     /**
@@ -82,9 +59,6 @@ class AddUserActivity : AppCompatActivity(), View.OnClickListener {
 
         thread {
             addUser(url, json)
-            // runOnUiThread {
-                // addedText.text = "User $firstNameInput $lastNameInput added"
-            // }
         }
 
         val newUserIntent = Intent(this, MainActivity::class.java)
@@ -101,6 +75,28 @@ class AddUserActivity : AppCompatActivity(), View.OnClickListener {
             runOnUiThread {
                 helpText.text = "First name or last name missing"
             }
+        }
+    }
+
+    /**
+     * This is a function that adds the new user to the database
+     * @param url the database url address
+     * @param json new user's name as json
+     * @return responseBody the result of the connection
+     */
+    private fun addUser(url : String, json : String) : String {
+        val client = OkHttpClient()
+        val requestBody = json.toRequestBody("application/json".toMediaTypeOrNull())
+        val request = Request.Builder()
+            .url(url)
+            .post(requestBody)
+            .build()
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+
+            val responseBody = response.body!!.string()
+            println(responseBody)
+            return responseBody
         }
     }
 }
