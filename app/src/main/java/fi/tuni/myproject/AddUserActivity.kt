@@ -18,7 +18,6 @@ import kotlin.concurrent.thread
  * This class adds a new user in it's own view
  */
 class AddUserActivity : AppCompatActivity(), View.OnClickListener {
-
     private lateinit var firstNameEditText : EditText
     private lateinit var lastNameEditText : EditText
     private lateinit var helpText : TextView

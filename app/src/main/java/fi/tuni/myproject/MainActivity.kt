@@ -75,31 +75,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     /**
-     * Override function of onResume that has an url address of the all
-     * users list. This function runs the list of the users in the UI view
-     * and calls the http connection.
-     */
-    override fun onResume() {
-        super.onResume()
-
-
-        thread {
-            val json : String = getUrl()
-
-
-            val result : UserList =
-                ObjectMapper().readValue(json, UserList::class.java)
-            val users : MutableList<User> = result.users!!
-
-            runOnUiThread {
-                users.forEach {
-                    adapter.add(it)
-                }
-            }
-        }
-    }
-
-    /**
      * This function gets the connection to the database using OkHttp.
      * It parses the json using Jackson.
      * @return responseBody result of the connection
@@ -119,6 +94,29 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             val responseBody = response.body!!.string()
             println(responseBody)
             return responseBody
+        }
+    }
+
+    /**
+     * Override function of onResume that has an url address of the all
+     * users list. This function runs the list of the users in the UI view
+     * and calls the http connection.
+     */
+    override fun onResume() {
+        super.onResume()
+
+        thread {
+            val json : String = getUrl()
+
+            val result : UserList =
+                ObjectMapper().readValue(json, UserList::class.java)
+            val users : MutableList<User> = result.users!!
+
+            runOnUiThread {
+                users.forEach {
+                    adapter.add(it)
+                }
+            }
         }
     }
 }
