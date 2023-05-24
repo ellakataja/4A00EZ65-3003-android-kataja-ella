@@ -55,36 +55,36 @@ class AddUserActivity : AppCompatActivity(), View.OnClickListener {
         lastNameInput = lastNameEditText.text.toString()
         val newUser = User(firstNameInput, lastNameInput)
         val json = ObjectMapper().writeValueAsString(newUser)
-        val url = "https://dummyjson.com/users/add"
 
         thread {
-            addUser(url, json)
+            addUser(json)
         }
 
         val newUserIntent = Intent(this, MainActivity::class.java)
 
-        if (firstNameInput != "" && lastNameInput != "") {
-            newUserIntent.putExtra("firstName", firstNameInput)
-            newUserIntent.putExtra("lastName", lastNameInput)
-            startActivity(newUserIntent)
-        } else if (firstNameInput.length < 2 && lastNameInput.length < 2) {
+        if (firstNameInput.isEmpty() || lastNameInput.isEmpty()) {
+            runOnUiThread {
+                helpText.text = getString(R.string.name_missing)
+            }
+        } else if (firstNameInput.length < 2 || lastNameInput.length < 2) {
             runOnUiThread {
                 helpText.text = getString(R.string.name_length)
             }
         } else {
-            runOnUiThread {
-                helpText.text = getString(R.string.name_missing)
-            }
+            newUserIntent.putExtra("firstName", firstNameInput)
+            newUserIntent.putExtra("lastName", lastNameInput)
+            startActivity(newUserIntent)
         }
     }
 
     /**
      * This is a function that adds the new user to the database
-     * @param url the database url address
      * @param json new user's name as json
      * @return responseBody the result of the connection
      */
-    private fun addUser(url : String, json : String) : String {
+    private fun addUser(json : String) : String {
+        val url = "https://dummyjson.com/users/add"
+
         val client = OkHttpClient()
         val requestBody = json.toRequestBody("application/json".toMediaTypeOrNull())
         val request = Request.Builder()
