@@ -69,11 +69,11 @@ class AddUserActivity : AppCompatActivity(), View.OnClickListener {
             startActivity(newUserIntent)
         } else if (firstNameInput.length < 2 && lastNameInput.length < 2) {
             runOnUiThread {
-                helpText.text = "Name length must be at least 2 characters"
+                helpText.text = getString(R.string.name_length)
             }
         } else {
             runOnUiThread {
-                helpText.text = "First name or last name missing"
+                helpText.text = getString(R.string.name_missing)
             }
         }
     }

@@ -5,15 +5,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.ObjectMapper
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 import kotlin.concurrent.thread
 
@@ -51,10 +48,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         addUserButton.setOnClickListener(this)
 
         newUserIntent = intent
-        var newUserBundle : Bundle? = newUserIntent.extras
+        val newUserBundle : Bundle? = newUserIntent.extras
         firstName = newUserBundle?.getString("firstName").toString()
         lastName = newUserBundle?.getString("lastName").toString()
-        var newUser = User(firstName, lastName)
+        val newUser = User(firstName, lastName)
 
         userList = findViewById(R.id.userList)
         adapter = ArrayAdapter<User>(this, R.layout.user, R.id.userText,
@@ -84,20 +81,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
      */
     override fun onResume() {
         super.onResume()
-        val url = "https://dummyjson.com/users"
+
 
         thread {
-            var json : String? = getUrl(url)
+            val json : String = getUrl()
 
-            if(json != null) {
-                val result : UserList =
-                    ObjectMapper().readValue(json, UserList::class.java)
-                val users : MutableList<User> = result.users!!
 
-                runOnUiThread {
-                    users.forEach {
-                        adapter.add(it)
-                    }
+            val result : UserList =
+                ObjectMapper().readValue(json, UserList::class.java)
+            val users : MutableList<User> = result.users!!
+
+            runOnUiThread {
+                users.forEach {
+                    adapter.add(it)
                 }
             }
         }
@@ -106,11 +102,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     /**
      * This function gets the connection to the database using OkHttp.
      * It parses the json using Jackson.
-     * @param url address of the http connection
      * @return responseBody result of the connection
      * @throws IOException prints the response if the connection fails
      */
-    private fun getUrl(url: String) : String? {
+    private fun getUrl() : String {
+        val url = "https://dummyjson.com/users"
         val client = OkHttpClient()
 
         val request = Request.Builder()
